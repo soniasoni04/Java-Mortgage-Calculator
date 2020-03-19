@@ -11,46 +11,45 @@ public class Main {
         System.out.println("***********************************");
         System.out.println("");
         //
-        Scanner scanner = new Scanner(System.in).useLocale(Locale.US);;
-        float principal, annualInterestRate;
-        int years;
+        int principal, years;
+        float annualInterestRate =0;
 
-        while (true){
-            System.out.print("Enter the Principal Amount : ");
-            principal = scanner.nextFloat();
-            if(principal >=1_000 && principal<= 1_000_000)
-                break;
-            System.out.println("Enter the principal amount between 1000 and 10,00,000");
-        }
-        //
-        while(true){
-            System.out.print("Enter the Annual Interest Rate : ");
-            annualInterestRate = scanner.nextFloat();
-            if(annualInterestRate >=1  && annualInterestRate <=30)
-                break;
-            System.out.println("Annual Interest rate must be between 1 and 30");
+        principal = (int)readNumber("Enter the Principal Amount : ", 1_000 , 10_000_00);
+        annualInterestRate = (float)readNumber("Enter the Annual Interest Rate : ", 1, 30);
+        years =  (int)readNumber("Enter the number of years : ", 10, 30);
 
-        }
-        float monthlyInterestRate = annualInterestRate/100/12;
-        //
-        while(true){
-            System.out.print("Enter the Period of time in Years : ");
-            years = scanner.nextInt();
-            if(years >=10 && years<= 30)
-                break;
-            System.out.println("years must be between 10 and 30");
-        }
-        //
-        //now calculating the mortgage value
-        // M = p*r*Math.pow((1+r), n)/Math.pow((1+r), n) -1
+        double result = mortgageCalculator(principal, annualInterestRate, years);
+        System.out.println("result : " + result);
 
-        double Mortgage = principal*monthlyInterestRate*Math.pow((1+monthlyInterestRate), years)/(Math.pow((1+monthlyInterestRate), years)) -1;
-
-        String mortgageFormatted = NumberFormat.getCurrencyInstance().format(Mortgage);
+        String mortgageFormatted = NumberFormat.getCurrencyInstance().format(result);
         System.out.println("Mortgage value : " + mortgageFormatted);
 
+    }
 
+    public static double readNumber(String prompt, int min, int max){
+        Scanner scanner = new Scanner(System.in).useLocale(Locale.US);
+        double value;
+        while(true){
+            System.out.println(prompt);
+            value = scanner.nextDouble();
+            if(value >= min && value<= max)
+                break;
+            System.out.println("Enter the value between " + min + " and " +  max);
+        }
+        return value;
+    }
 
+    public static double mortgageCalculator(
+            int principal,
+            float annualInterestRate,
+            int years){
 
+        int numberOfPayment = years * 12;
+        float monthlyInterestRate = annualInterestRate/100/12;
+
+        double Mortgage = principal
+                * monthlyInterestRate*Math.pow((1+monthlyInterestRate), numberOfPayment)
+                /(Math.pow((1+monthlyInterestRate), numberOfPayment)) -1;
+        return Mortgage;
     }
 }
