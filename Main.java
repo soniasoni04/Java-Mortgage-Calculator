@@ -12,18 +12,34 @@ public class Main {
         System.out.println("");
         //
         Scanner scanner = new Scanner(System.in).useLocale(Locale.US);;
+        float principal, annualInterestRate;
+        int years;
 
-        System.out.print("Enter the Principal Amount : ");
-        float principal = scanner.nextFloat();
-        System.out.println("principal : " + principal);
+        while (true){
+            System.out.print("Enter the Principal Amount : ");
+            principal = scanner.nextFloat();
+            if(principal >=1_000 && principal<= 1_000_000)
+                break;
+            System.out.println("Enter the principal amount between 1000 and 10,00,000");
+        }
         //
-        System.out.print("Enter the Annual Interest Rate : ");
-        float annualInterestRate = scanner.nextFloat();
+        while(true){
+            System.out.print("Enter the Annual Interest Rate : ");
+            annualInterestRate = scanner.nextFloat();
+            if(annualInterestRate >=1  && annualInterestRate <=30)
+                break;
+            System.out.println("Annual Interest rate must be between 1 and 30");
 
+        }
         float monthlyInterestRate = annualInterestRate/100/12;
         //
-        System.out.print("Enter the Period of time in Years : ");
-        int years = scanner.nextInt();
+        while(true){
+            System.out.print("Enter the Period of time in Years : ");
+            years = scanner.nextInt();
+            if(years >=10 && years<= 30)
+                break;
+            System.out.println("years must be between 10 and 30");
+        }
         //
         //now calculating the mortgage value
         // M = p*r*Math.pow((1+r), n)/Math.pow((1+r), n) -1
